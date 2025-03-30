@@ -9,7 +9,12 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@atom/*": ["./src/components/atoms/*"],
+      "@molecules/*": ["./src/components/molecules/*"],
+      "@organisms/*": ["./src/components/organismss/*"],
+      "@templates/*": ["./src/components/templates/*"],
+      "@images/*": ["./src/assets/images/*"]
     }
   }
 }
