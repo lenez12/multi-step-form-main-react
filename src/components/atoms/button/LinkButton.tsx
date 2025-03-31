@@ -1,6 +1,6 @@
 import React from "react";
 
-const Button: React.FC<{
+const LinkButton: React.FC<{
   disabled?: boolean;
   label: string;
   type?: "button" | "submit";
@@ -11,11 +11,11 @@ const Button: React.FC<{
       disabled={disabled}
       onClick={onClick ? onClick : () => {}}
       type={type}
-      className="px-6 py-3 bg-marine-blue self-start text-white rounded-md hover:opacity-85 cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed select-none"
+      className="px-6 py-3 font-bold text-marine-blue self-start  rounded-md hover:opacity-85 cursor-pointer disabled:text-gray-400 disabled:cursor-not-allowed select-none"
     >
       {label}
     </button>
   );
 };
 
-export default Button;
+export default LinkButton;

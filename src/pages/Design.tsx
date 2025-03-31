@@ -1,4 +1,7 @@
-import Button from "@/components/atoms/button/Button";
+import FormInfo, {
+  FormInfoHandle,
+} from "@/components/organisms/form-info/FormInfo";
+import FormNavigation from "@/components/organisms/form-navigation/FormNavigation";
 import SideBar, { StepType } from "@/components/organisms/side-bar/SideBar";
 import React from "react";
 
@@ -27,31 +30,57 @@ const steps: StepType[] = [
 
 const Design = () => {
   const [step, setStep] = React.useState(1);
+  const formInfoRef = React.useRef<FormInfoHandle>(null);
+
+  const handleSubmit = () => {
+    const form = formInfoRef.current?.validateAndGetData();
+    console.log({ form });
+
+    if (!form?.isValid) {
+      return;
+    }
+
+    setStep((prev) => (prev < 4 ? prev + 1 : 4));
+  };
+
+  const onBack = () => setStep((prev) => (prev > 0 ? prev - 1 : 0));
+
   return (
-    <div className="lg:m-1.5 lg:p-2 flex lg:flex-row gap-4 sm: flex-col">
+    <div
+      className={`
+        lg:m-1.5 lg:p-4 flex lg:flex-row gap-4 sm: flex-col sm:h-screen lg:h-auto
+        sm:justify-between lg:justify-normal sm:bg-[hsl(var(--color-light-blue)_/_0.3)]
+        lg:bg-white shadow-2xl lg:rounded-2xl min-w-[450px]`}
+    >
       <SideBar steps={steps} currentStep={step} />
       <div
         className={`
-        flex p-6 bg-white rounded-2xl grow flex-1/2
-         sm:mx-auto sm:mt-[-110px] sm:min-h-[300px] sm:min-w-[90%]
-         lg:mx-0 lg:mt-0 shadow-2xl 
-         lg:max-w-[45%] md:max-w-[65%] lg:min-w-[700px]
-         border-gray-300 border-[1px]
+        flex p-6 bg-white rounded-2xl 
+         sm:mx-auto sm:mt-[-39vh] 
+         sm:max-w-[90%] sm:min-w-[90%] sm:min-h-[300px] lg:mx-0 lg:mt-0 
+         lg:max-w-[45%] md:min-w-[75%] lg:min-w-[700px]
+         border-gray-300  flex-col justify-between sm:shadow-2xl lg:shadow-[0]
+         gap-3 
         `}
       >
-        <div className="flex flex-row gap-4 self-end justify-between  grow">
-          <Button
-            label="Back"
-            disabled={step === 1}
-            onClick={() => setStep((prev) => (prev > 0 ? prev - 1 : 0))}
-          />
-          <Button
-            label="Next Step"
-            disabled={step === 4}
-            onClick={() => setStep((prev) => (prev < 4 ? prev + 1 : 4))}
-          />
-        </div>
+        <FormInfo ref={formInfoRef} />
+        {/* <FormSelectPlan /> */}
+        <FormNavigation
+          step={step}
+          onBack={onBack}
+          disabledNext={step === 4}
+          onNext={handleSubmit}
+          isMobile={false}
+        />
       </div>
+
+      <FormNavigation
+        step={step}
+        onBack={onBack}
+        disabledNext={step === 4}
+        onNext={handleSubmit}
+        isMobile={true}
+      />
     </div>
   );
 };

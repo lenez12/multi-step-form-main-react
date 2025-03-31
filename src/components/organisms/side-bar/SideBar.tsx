@@ -14,16 +14,12 @@ const SideBar: React.FC<Props> = ({ steps, currentStep }) => {
     <div
       id="sidebar"
       className={`
-          py-10 pl-12
+          py-10 lg:pl-12  bg-sidebar 
           w-full sm:w-full lg:w-[280px] 
-          lg:h-[600px] sm:h-[220px]
+          lg:h-[600px] sm:min-h-[200px]
           flex sm:flex-row lg:flex-col
-          gap-6
-          sm:justify-center sm:items-start lg:justify-start
-          lg:rounded-2xl
-           bg-blue-600
-          flex-shrink-0 
-          bg-sidebar lg:shadow-2xl sm:shadow-[0] 
+          gap-6 sm:justify-center sm:items-start lg:justify-start
+          lg:rounded-2xl bg-blue-600 sm:shadow-[0] 
         `}
     >
       {steps.map((step) => (

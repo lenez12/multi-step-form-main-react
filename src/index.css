@@ -32,7 +32,7 @@
   --color-marine-blue: hsl(213 96% 18%);
   --color-purplish-blue: hsl(243 100% 62%);
   --color-pastel-blue: hsl(228 100% 84%);
-  --color-light-blue: hsl(206 94% 87%);
+  --color-light-blue: 206 94% 87%;
   --color-strawberry-red: hsl(354 84% 57%);
 
   /* Neutral */
@@ -93,6 +93,10 @@
       background-size: cover;
       background-position: 25% 75%;
     }
+  }
+
+  .bg-indicator-circle {
+    background-color: hsl(var(--color-light-blue));
   }
 }
 

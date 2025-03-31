@@ -9,7 +9,7 @@ type Props = {
 const StepNumber: React.FC<Props> = ({ number, active }) => {
   const circleClass = clsx(
     "relative aspect-square lg:w-[35px] sm:w-[45px] max-w-[60px] min-w-[20px] rounded-full  flex items-center justify-center border-[1px] border-gray-100 bg-* transition-colors duration-300 ease-in-out",
-    { "bg-light-blue ": active }
+    { "bg-indicator-circle ": active }
   );
   const textClass = clsx("text-[1em] text-amber-50 font-medium", {
     "text-black": active,
