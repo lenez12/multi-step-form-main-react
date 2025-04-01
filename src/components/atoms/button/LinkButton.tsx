@@ -11,7 +11,7 @@ const LinkButton: React.FC<{
       disabled={disabled}
       onClick={onClick ? onClick : () => {}}
       type={type}
-      className="px-6 py-3 font-bold text-marine-blue self-start  rounded-md hover:opacity-85 cursor-pointer disabled:text-gray-400 disabled:cursor-not-allowed select-none"
+      className="px-6 py-3 font-bold text-gray-400 hover:text-marine-blue self-start  rounded-md hover:opacity-85 cursor-pointer disabled:text-gray-400 disabled:cursor-not-allowed select-none"
     >
       {label}
     </button>

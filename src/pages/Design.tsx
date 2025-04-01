@@ -1,7 +1,12 @@
-import { FormInfoHandle } from "@/components/organisms/form-info/FormInfo";
+import FormFinish from "@/components/organisms/form-finish/FormFinish";
+import FormInfo, {
+  FormInfoHandle,
+} from "@/components/organisms/form-info/FormInfo";
 import FormNavigation from "@/components/organisms/form-navigation/FormNavigation";
 import FormPickAddons from "@/components/organisms/form-pick-addons/FormPickAddons";
+import FormSelectPlan from "@/components/organisms/form-select-plan/FormSelectPlan";
 import SideBar, { StepType } from "@/components/organisms/side-bar/SideBar";
+import Thankyou from "@/components/organisms/thankyou/Thankyou";
 import React from "react";
 
 const steps: StepType[] = [
@@ -35,7 +40,7 @@ const Design = () => {
     const form = formInfoRef.current?.validateAndGetData();
     console.log({ form });
 
-    setStep((prev) => (prev < 4 ? prev + 1 : 4));
+    setStep((prev) => (prev < 5 ? prev + 1 : 4));
   };
 
   const onBack = () => setStep((prev) => (prev > 0 ? prev - 1 : 0));
@@ -58,22 +63,41 @@ const Design = () => {
          gap-3 
         `}
       >
-        <FormPickAddons />
+        {step === 1 && <FormInfo />}
+        {step === 2 && <FormSelectPlan />}
+        {step === 3 && <FormPickAddons />}
+        {step === 4 && (
+          <FormFinish
+            plan="Arcade (Monthly)"
+            price="$90/mo"
+            addons={[
+              { label: "Online service", price: "+$10/mo" },
+              { label: "Larger storage", price: "+$20/mo" },
+            ]}
+            total="120"
+          />
+        )}
+        {step === 5 && <Thankyou />}
+
         <FormNavigation
           step={step}
           onBack={onBack}
-          disabledNext={step === 4}
           onNext={handleSubmit}
           isMobile={false}
+          visible={step < 5}
+          nexbuttonText={step === 4 ? "Confirm" : "Next Step"}
+          nextButtonVariant={step === 4 ? "accent" : "primary"}
         />
       </div>
 
       <FormNavigation
         step={step}
         onBack={onBack}
-        disabledNext={step === 4}
         onNext={handleSubmit}
         isMobile={true}
+        visible={step < 5}
+        nexbuttonText={step === 4 ? "Confirm" : "Next Step"}
+        nextButtonVariant={step === 4 ? "accent" : "primary"}
       />
     </div>
   );

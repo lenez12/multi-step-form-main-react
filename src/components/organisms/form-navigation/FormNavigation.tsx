@@ -8,6 +8,9 @@ type Props = {
   onNext: () => void;
   disabledNext?: boolean;
   isMobile: boolean;
+  nextButtonVariant?: "primary" | "accent";
+  nexbuttonText?: string;
+  visible?: boolean;
 };
 
 const FormNavigation: React.FC<Props> = ({
@@ -16,6 +19,9 @@ const FormNavigation: React.FC<Props> = ({
   onNext,
   disabledNext,
   isMobile,
+  nexbuttonText,
+  nextButtonVariant,
+  visible = true,
 }) => {
   if (!isMobile) {
     return (
@@ -24,7 +30,7 @@ const FormNavigation: React.FC<Props> = ({
         <div
           className={clsx(
             "lg:flex  sm:hidden flex-row gap-4 justify-between bg-white",
-            { "justify-end": step === 1 }
+            { "justify-end": step === 1, "sr-only": !visible }
           )}
         >
           <div className={step === 1 ? "sr-only" : ""}>
@@ -34,7 +40,12 @@ const FormNavigation: React.FC<Props> = ({
               onClick={onBack}
             />
           </div>
-          <Button label="Next Step" disabled={disabledNext} onClick={onNext} />
+          <Button
+            label={nexbuttonText ?? "Next Step"}
+            disabled={disabledNext}
+            onClick={onNext}
+            variant={nextButtonVariant}
+          />
         </div>
       </>
     );
@@ -43,13 +54,18 @@ const FormNavigation: React.FC<Props> = ({
     <div
       className={clsx(
         "lg:hidden flex flex-row gap-4 justify-between px-6 py-4 bg-white",
-        { "justify-end": step === 1 }
+        { "justify-end": step === 1, "sr-only": !visible }
       )}
     >
       <div className={step === 1 ? "sr-only" : ""}>
         <LinkButton label="Go Back" disabled={step === 1} onClick={onBack} />
       </div>
-      <Button label="Next Step" disabled={disabledNext} onClick={onNext} />
+      <Button
+        label={nexbuttonText ?? "Next Step"}
+        disabled={disabledNext}
+        onClick={onNext}
+        variant={nextButtonVariant}
+      />{" "}
     </div>
   );
 };
