@@ -1,7 +1,6 @@
-import FormInfo, {
-  FormInfoHandle,
-} from "@/components/organisms/form-info/FormInfo";
+import { FormInfoHandle } from "@/components/organisms/form-info/FormInfo";
 import FormNavigation from "@/components/organisms/form-navigation/FormNavigation";
+import FormSelectPlan from "@/components/organisms/form-select-plan/FormSelectPlan";
 import SideBar, { StepType } from "@/components/organisms/side-bar/SideBar";
 import React from "react";
 
@@ -36,10 +35,6 @@ const Design = () => {
     const form = formInfoRef.current?.validateAndGetData();
     console.log({ form });
 
-    if (!form?.isValid) {
-      return;
-    }
-
     setStep((prev) => (prev < 4 ? prev + 1 : 4));
   };
 
@@ -56,15 +51,14 @@ const Design = () => {
       <div
         className={`
         flex p-6 bg-white rounded-2xl 
-         sm:mx-auto sm:mt-[-39vh] 
-         sm:max-w-[90%] sm:min-w-[90%] sm:min-h-[300px] lg:mx-0 lg:mt-0 
+         sm:mx-auto sm:mt-[-30vh] 
+         sm:max-w-[90%] sm:min-w-[90%] sm:min-h-fit lg:mx-0 lg:mt-0 
          lg:max-w-[45%] md:min-w-[75%] lg:min-w-[700px]
          border-gray-300  flex-col justify-between sm:shadow-2xl lg:shadow-[0]
          gap-3 
         `}
       >
-        <FormInfo ref={formInfoRef} />
-        {/* <FormSelectPlan /> */}
+        <FormSelectPlan />
         <FormNavigation
           step={step}
           onBack={onBack}
