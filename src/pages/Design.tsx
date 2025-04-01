@@ -1,6 +1,6 @@
 import { FormInfoHandle } from "@/components/organisms/form-info/FormInfo";
 import FormNavigation from "@/components/organisms/form-navigation/FormNavigation";
-import FormSelectPlan from "@/components/organisms/form-select-plan/FormSelectPlan";
+import FormPickAddons from "@/components/organisms/form-pick-addons/FormPickAddons";
 import SideBar, { StepType } from "@/components/organisms/side-bar/SideBar";
 import React from "react";
 
@@ -58,7 +58,7 @@ const Design = () => {
          gap-3 
         `}
       >
-        <FormSelectPlan />
+        <FormPickAddons />
         <FormNavigation
           step={step}
           onBack={onBack}
