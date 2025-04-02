@@ -1,6 +1,7 @@
 import Button from "@/components/atoms/button/Button";
 import LinkButton from "@/components/atoms/button/LinkButton";
 import clsx from "clsx";
+import { HTMLProps } from "react";
 
 type Props = {
   step: number;
@@ -11,6 +12,7 @@ type Props = {
   nextButtonVariant?: "primary" | "accent";
   nexbuttonText?: string;
   visible?: boolean;
+  className?: HTMLProps<HTMLElement>["className"];
 };
 
 const FormNavigation: React.FC<Props> = ({
@@ -22,6 +24,7 @@ const FormNavigation: React.FC<Props> = ({
   nexbuttonText,
   nextButtonVariant,
   visible = true,
+  className,
 }) => {
   if (!isMobile) {
     return (
@@ -29,8 +32,13 @@ const FormNavigation: React.FC<Props> = ({
         {/* Desktop */}
         <div
           className={clsx(
-            "lg:flex  sm:hidden flex-row gap-4 justify-between bg-white",
-            { "justify-end": step === 1, "sr-only": !visible }
+            "lg:flex  sm:hidden flex-row justify-between bg-white lg:min-w-full",
+            {
+              "justify-end": step === 1,
+              "sr-only": !visible,
+              "shadow-2xl": isMobile,
+            },
+            className
           )}
         >
           <div className={step === 1 ? "sr-only" : ""}>

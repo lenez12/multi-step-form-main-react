@@ -14,7 +14,7 @@ const BillingToggle: React.FC<BillingToggleProps> = ({
   yearlyLabel = "Yearly",
 }) => {
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 w-full justify-center">
       <span
         className={`text-sm ${
           !checked ? "text-marine-blue font-bold" : "text-gray-400"

@@ -1,4 +1,5 @@
 import { Arcade, Advance, Pro } from "@/assets/images";
+import FormWrapper from "@/components/atoms/wrapper/FormWrapper";
 import BillingToggle from "@/components/molecules/billing-toggle/BillingToggle";
 import PlanCard from "@/components/molecules/card/PlanCard";
 import SectionHeader from "@/components/molecules/section-header/SectionHeader";
@@ -29,7 +30,7 @@ const FormSelectPlan = () => {
   const [isOn, setIsOn] = useState(false);
 
   return (
-    <div className=" flex flex-col lg:w-[90%] sm:w-[100%] md:w-[100%] self-center gap-8 justify-center grow">
+    <FormWrapper>
       <SectionHeader
         title="Select your plan"
         description="You have the option of monthly or yearly billing"
@@ -47,7 +48,7 @@ const FormSelectPlan = () => {
           monthlyLabel="Monthly"
         />
       </div>
-    </div>
+    </FormWrapper>
   );
 };
 

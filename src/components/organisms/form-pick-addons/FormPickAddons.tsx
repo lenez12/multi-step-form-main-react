@@ -1,3 +1,4 @@
+import FormWrapper from "@/components/atoms/wrapper/FormWrapper";
 import AddOnCard, {
   AddOnCardProps,
 } from "@/components/molecules/card/AddOnCard";
@@ -30,22 +31,24 @@ const addons: AddOnCardProps[] = [
 
 const FormPickAddons: React.FC = () => {
   return (
-    <div className=" flex flex-col lg:w-[90%] sm:w-[100%] md:w-[100%] self-center gap-8 justify-center grow">
+    <FormWrapper>
       <SectionHeader
         title="Pick add-ons"
         description="Add-ons help enhance your gaming experience"
       />
-      {addons.map((addon) => (
-        <AddOnCard
-          checked={addon.checked}
-          label={addon.label}
-          description={addon.description}
-          price={addon.price}
-          id={addon.id}
-          onChange={() => {}}
-        />
-      ))}
-    </div>
+      <div className="flex flex-col gap-4">
+        {addons.map((addon) => (
+          <AddOnCard
+            checked={addon.checked}
+            label={addon.label}
+            description={addon.description}
+            price={addon.price}
+            id={addon.id}
+            onChange={() => {}}
+          />
+        ))}
+      </div>
+    </FormWrapper>
   );
 };
 

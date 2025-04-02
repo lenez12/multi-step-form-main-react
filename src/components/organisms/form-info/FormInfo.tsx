@@ -2,6 +2,7 @@ import { forwardRef, useImperativeHandle } from "react";
 import { useFormField } from "@/hooks/userFormField";
 import InputWithLabel from "@/components/molecules/input-with-label/InputWithLabel";
 import SectionHeader from "@/components/molecules/section-header/SectionHeader";
+import FormWrapper from "@/components/atoms/wrapper/FormWrapper";
 
 export type FormInfoHandle = {
   validateAndGetData: () => {
@@ -35,7 +36,7 @@ const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
   }));
 
   return (
-    <div className=" flex flex-col lg:w-[90%] sm:w-[100%] md:w-[100%] self-center gap-8 justify-center grow">
+    <FormWrapper>
       <SectionHeader
         title="Personal Info"
         description="Please provide your name, email address, and phone number"
@@ -69,7 +70,7 @@ const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
           type="tel"
         />
       </form>
-    </div>
+    </FormWrapper>
   );
 });
 

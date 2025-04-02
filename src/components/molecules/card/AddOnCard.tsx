@@ -27,6 +27,7 @@ const AddOnCard: React.FC<AddOnCardProps> = ({
       className={clsx(
         `flex items-center gap-4 border rounded-lg p-4 
           cursor-pointer transition-all border-gray-300
+          hover:border-purplish-blue hover:bg-[hsla(243,100%,62%,0.05)]
       `,
         { "border-purplish-blue bg-[hsla(243,100%,62%,0.05)]": checked }
       )}

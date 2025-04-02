@@ -1,4 +1,5 @@
 import SummaryRow from "@/components/atoms/surrmary-row/SummaryRow";
+import FormWrapper from "@/components/atoms/wrapper/FormWrapper";
 import SectionHeader from "@/components/molecules/section-header/SectionHeader";
 import React from "react";
 
@@ -22,7 +23,7 @@ const FormFinish: React.FC<FormFinishInterface> = ({
   const unit = isMonthly ? "/mo" : "/yr";
 
   return (
-    <div className=" flex flex-col lg:w-[90%] sm:w-[100%] md:w-[100%] self-center gap-6 justify-center grow">
+    <FormWrapper>
       <SectionHeader
         title="Finishing up"
         description="Double-check everything looks OK before confirming"
@@ -64,7 +65,7 @@ const FormFinish: React.FC<FormFinishInterface> = ({
           {unit}
         </span>
       </div>
-    </div>
+    </FormWrapper>
   );
 };
 
