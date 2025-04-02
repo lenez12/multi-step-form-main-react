@@ -1,33 +1,37 @@
-import { Arcade, Advance, Pro } from "@/assets/images";
+import { useState } from "react";
+import { Advance, Arcade, Pro } from "@/assets/images";
 import FormWrapper from "@/components/atoms/wrapper/FormWrapper";
 import BillingToggle from "@/components/molecules/billing-toggle/BillingToggle";
 import PlanCard from "@/components/molecules/card/PlanCard";
 import SectionHeader from "@/components/molecules/section-header/SectionHeader";
-import { useState } from "react";
 
 const plans = [
   {
     id: 1,
     title: "Arcade",
-    subtitle: "$9/mo",
+    value: "arcade",
+    price: "9",
     icon: Arcade,
   },
   {
     id: 2,
     title: "Advance",
-    subtitle: "$12/mo",
+    value: "advance",
+    price: "12",
     icon: Advance,
   },
   {
     id: 3,
     title: "Pro",
-    subtitle: "$15/mo",
+    value: "pro",
+    price: "15",
     icon: Pro,
   },
 ];
 
 const FormSelectPlan = () => {
   const [isOn, setIsOn] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState("");
 
   return (
     <FormWrapper>
@@ -37,7 +41,16 @@ const FormSelectPlan = () => {
       />
       <div className="flex lg:flex-row gap-4 sm:flex-col">
         {plans.map((plan) => (
-          <PlanCard key={plan.id} {...plan} active={plan.id === 1} />
+          <PlanCard
+            key={plan.id}
+            name="plan"
+            {...plan}
+            price={`$${plan.price}/${isOn ? "yr" : "mo"}`}
+            checked={selectedPlan === plan.value}
+            onChange={setSelectedPlan}
+            freeMonths={3}
+            isYearly={isOn}
+          />
         ))}
       </div>
       <div className="flex justify-center bg-gray-100 py-3 rounded-lg">

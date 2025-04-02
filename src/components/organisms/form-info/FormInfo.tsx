@@ -50,6 +50,7 @@ const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
           onChange={nameField.onChange}
           value={nameField.value}
           error={nameField.error}
+          type="text"
         />
         <InputWithLabel
           name="email"

@@ -38,7 +38,7 @@ const FormFinish: React.FC<FormFinishInterface> = ({
               <button
                 type="button"
                 onClick={onChange}
-                className="text-lg text-cool-gray underline  hover:text-purplish-blue"
+                className="text-lg text-cool-gray underline  hover:text-purplish-blue cursor-pointer"
               >
                 Change
               </button>

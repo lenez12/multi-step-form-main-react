@@ -3,9 +3,9 @@ import AddOnCard, {
   AddOnCardProps,
 } from "@/components/molecules/card/AddOnCard";
 import SectionHeader from "@/components/molecules/section-header/SectionHeader";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const addons: AddOnCardProps[] = [
+const initialAddons: AddOnCardProps[] = [
   {
     id: "1",
     label: "Online service",
@@ -30,6 +30,18 @@ const addons: AddOnCardProps[] = [
 ];
 
 const FormPickAddons: React.FC = () => {
+  const [addons, setAddons] = useState<AddOnCardProps[]>(initialAddons);
+
+  const toggleAddon = (id: string, checked: boolean) => {
+    setAddons((prev) =>
+      prev.map((addon) => (addon.id === id ? { ...addon, checked } : addon))
+    );
+  };
+
+  useEffect(() => {
+    console.log(addons.filter((addon) => addon.checked));
+  }, [addons]);
+
   return (
     <FormWrapper>
       <SectionHeader
@@ -44,7 +56,7 @@ const FormPickAddons: React.FC = () => {
             description={addon.description}
             price={addon.price}
             id={addon.id}
-            onChange={() => {}}
+            onChange={(checked) => toggleAddon(addon.id, checked)}
           />
         ))}
       </div>

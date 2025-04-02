@@ -38,9 +38,11 @@ const DefaultLayout = () => {
 
   const handleSubmit = () => {
     const form = formInfoRef.current?.validateAndGetData();
-    console.log({ form });
-
-    setStep((prev) => (prev < 5 ? prev + 1 : 4));
+    if (form?.isValid) {
+      setStep((prev) => (prev < 5 ? prev + 1 : 4));
+    } else {
+      return;
+    }
   };
 
   const onBack = () => setStep((prev) => (prev > 0 ? prev - 1 : 0));
@@ -59,7 +61,7 @@ const DefaultLayout = () => {
             rounded-2xl sm:max-h-fit lg:max-h-full flex flex-col justify-between 
             lg:max-w-[90%] lg:mx-auto sm:p-8 `}
       >
-        {step === 1 && <FormInfo />}
+        {step === 1 && <FormInfo ref={formInfoRef} />}
         {step === 2 && <FormSelectPlan />}
         {step === 3 && <FormPickAddons />}
         {step === 4 && (
@@ -71,6 +73,7 @@ const DefaultLayout = () => {
               { label: "Larger storage", price: "+$20/mo" },
             ]}
             total="120"
+            onChange={() => setStep(2)}
           />
         )}
         {step === 5 && <Thankyou />}
