@@ -4,19 +4,18 @@ interface Props {
   title: string;
   price: string;
   icon: string;
-  value: string;
+  plan: string;
   name: string;
   checked?: boolean;
   onChange?: (value: string) => void;
   freeMonths?: number;
   isYearly?: boolean;
 }
-
 const PlanCard: React.FC<Props> = ({
   title,
   price,
   icon,
-  value,
+  plan,
   name,
   checked,
   onChange,
@@ -24,13 +23,13 @@ const PlanCard: React.FC<Props> = ({
   freeMonths = 2,
 }) => {
   return (
-    <label className="relative block ">
+    <label className="relative block transition-transform">
       <input
         type="radio"
         name={name}
-        value={value}
+        value={plan}
         checked={checked}
-        onChange={() => onChange?.(value)}
+        onChange={() => onChange?.(plan)}
         className="peer hidden"
       />
 
@@ -38,9 +37,11 @@ const PlanCard: React.FC<Props> = ({
         className={clsx(
           `
           flex flex-row gap-4 py-5 px-4 rounded-xl border border-gray-300
-          hover:border-marine-blue hover:bg-blue-50 cursor-pointer sm:w-full
+          cursor-pointer sm:w-full transition-all duration-300 ease-in-out
+          hover:scale-[1.01] hover:border-marine-blue hover:bg-blue-50
           lg:flex-col lg:gap-12 lg:w-fit min-w-[150px]
           peer-checked:border-marine-blue peer-checked:bg-blue-50
+          peer-checked:scale-[1.02] peer-checked:shadow-md
         `
         )}
       >
@@ -49,6 +50,7 @@ const PlanCard: React.FC<Props> = ({
         <div className="flex flex-col">
           <span className="text-xl text-marine-blue font-medium">{title}</span>
           <span className="text-body text-gray-400 font-medium">{price}</span>
+
           <div
             className={clsx(
               "transition-all duration-300 origin-top",

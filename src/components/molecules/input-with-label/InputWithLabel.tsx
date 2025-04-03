@@ -5,7 +5,7 @@ import React from "react";
 type Props = {
   label: string;
   placeholder: string;
-  value: string;
+  value?: string;
   error?: string;
   name: string;
   type?: React.HTMLInputTypeAttribute;
@@ -28,7 +28,7 @@ const InputWithLabel: React.FC<Props> = ({
         name={name}
         type={type}
         placeholder={placeholder}
-        value={value}
+        value={value || ""}
         onChange={onChange ? onChange : () => {}}
         hasError={!!error}
         key={name}

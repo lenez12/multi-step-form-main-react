@@ -8,7 +8,7 @@ export interface AddOnCardProps {
   id: string;
   label: string;
   description: string;
-  price: string;
+  price: string | number;
   checked?: boolean;
   onChange?: (checked: boolean) => void;
 }
@@ -26,10 +26,14 @@ const AddOnCard: React.FC<AddOnCardProps> = ({
       htmlFor={id}
       className={clsx(
         `flex items-center gap-4 border rounded-lg p-4 
-          cursor-pointer transition-all border-gray-300
-          hover:border-purplish-blue hover:bg-[hsla(243,100%,62%,0.05)]
-      `,
-        { "border-purplish-blue bg-[hsla(243,100%,62%,0.05)]": checked }
+         cursor-pointer transition-all duration-300 ease-in-out
+         transform hover:scale-[1.01] hover:border-purplish-blue
+         hover:bg-[hsla(243,100%,62%,0.05)]
+         focus-within:ring-2 focus-within:ring-purplish-blue`,
+        {
+          "border-purplish-blue bg-[hsla(243,100%,62%,0.05)] scale-[1.02] shadow-md":
+            checked,
+        }
       )}
     >
       <input

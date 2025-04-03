@@ -7,6 +7,7 @@ import FormPickAddons from "@/components/organisms/form-pick-addons/FormPickAddo
 import FormSelectPlan from "@/components/organisms/form-select-plan/FormSelectPlan";
 import SideBar, { StepType } from "@/components/organisms/side-bar/SideBar";
 import Thankyou from "@/components/organisms/thankyou/Thankyou";
+import { useForm } from "@/context/FormContext";
 import React from "react";
 
 const steps: StepType[] = [
@@ -35,17 +36,28 @@ const steps: StepType[] = [
 const DefaultLayout = () => {
   const [step, setStep] = React.useState(1);
   const formInfoRef = React.useRef<FormInfoHandle>(null);
+  const { state, dispatch } = useForm();
 
   const handleSubmit = () => {
     const form = formInfoRef.current?.validateAndGetData();
-    if (form?.isValid) {
+    if (step === 4) {
+      dispatch({ type: "RESET_FORM" });
+      setStep((prev) => (prev < 5 ? prev + 1 : 4));
+    } else if (form?.isValid) {
+      setStep((prev) => (prev < 5 ? prev + 1 : 4));
+    } else if (state.selectedPlan?.plan) {
       setStep((prev) => (prev < 5 ? prev + 1 : 4));
     } else {
       return;
     }
   };
 
-  const onBack = () => setStep((prev) => (prev > 0 ? prev - 1 : 0));
+  const onBack = () => {
+    if (step === 3) {
+      dispatch({ type: "RESET_ADDONS" });
+    }
+    setStep((prev) => (prev > 0 ? prev - 1 : 0));
+  };
 
   return (
     <div
@@ -64,18 +76,7 @@ const DefaultLayout = () => {
         {step === 1 && <FormInfo ref={formInfoRef} />}
         {step === 2 && <FormSelectPlan />}
         {step === 3 && <FormPickAddons />}
-        {step === 4 && (
-          <FormFinish
-            plan="Arcade (Monthly)"
-            price="$90/mo"
-            addons={[
-              { label: "Online service", price: "+$10/mo" },
-              { label: "Larger storage", price: "+$20/mo" },
-            ]}
-            total="120"
-            onChange={() => setStep(2)}
-          />
-        )}
+        {step === 4 && <FormFinish onChange={() => setStep(2)} />}
         {step === 5 && <Thankyou />}
 
         <FormNavigation

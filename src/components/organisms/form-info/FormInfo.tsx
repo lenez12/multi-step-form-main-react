@@ -3,20 +3,23 @@ import { useFormField } from "@/hooks/userFormField";
 import InputWithLabel from "@/components/molecules/input-with-label/InputWithLabel";
 import SectionHeader from "@/components/molecules/section-header/SectionHeader";
 import FormWrapper from "@/components/atoms/wrapper/FormWrapper";
+import { useForm } from "@/context/FormContext";
 
 export type FormInfoHandle = {
   validateAndGetData: () => {
-    name: string;
-    email: string;
-    phone: string;
     isValid: boolean;
   };
 };
 
 const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
-  const phoneField = useFormField("", { required: true });
-  const emailField = useFormField("", { required: true });
-  const nameField = useFormField("", { required: true });
+  const { state, dispatch } = useForm();
+  const nameField = useFormField(state.personalInfo?.name, { required: true });
+  const emailField = useFormField(state.personalInfo?.email, {
+    required: true,
+  });
+  const phoneField = useFormField(state.personalInfo?.phone, {
+    required: true,
+  });
 
   useImperativeHandle(ref, () => ({
     validateAndGetData: () => {
@@ -27,9 +30,6 @@ const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
       const isValid = isNameValid && isEmailValid && isPhoneValid;
 
       return {
-        name: nameField.value,
-        email: emailField.value,
-        phone: phoneField.value,
         isValid,
       };
     },
@@ -47,8 +47,15 @@ const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
           name="name"
           label="Name"
           placeholder="Masukan nama"
-          onChange={nameField.onChange}
-          value={nameField.value}
+          onChange={(e) => {
+            nameField.onChange(e);
+            dispatch({
+              type: "UPDATE_PERSONAL_INFO",
+              field: "name",
+              value: e.target.value,
+            });
+          }}
+          value={state.personalInfo?.name}
           error={nameField.error}
           type="text"
         />
@@ -56,8 +63,15 @@ const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
           name="email"
           label="Email Address"
           placeholder="Masukan Email"
-          onChange={emailField.onChange}
-          value={emailField.value}
+          onChange={(e) => {
+            emailField.onChange(e);
+            dispatch({
+              type: "UPDATE_PERSONAL_INFO",
+              field: "email",
+              value: e.target.value,
+            });
+          }}
+          value={state.personalInfo?.email}
           error={emailField.error}
           type="email"
         />
@@ -65,8 +79,15 @@ const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
           name="phone"
           label="Phone Number"
           placeholder="Masukan Nomor Telepon"
-          onChange={phoneField.onChange}
-          value={phoneField.value}
+          onChange={(e) => {
+            phoneField.onChange(e);
+            dispatch({
+              type: "UPDATE_PERSONAL_INFO",
+              field: "phone",
+              value: e.target.value,
+            });
+          }}
+          value={state.personalInfo?.phone}
           error={phoneField.error}
           type="tel"
         />

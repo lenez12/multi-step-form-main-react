@@ -1,26 +1,18 @@
 import SummaryRow from "@/components/atoms/surrmary-row/SummaryRow";
 import FormWrapper from "@/components/atoms/wrapper/FormWrapper";
 import SectionHeader from "@/components/molecules/section-header/SectionHeader";
+import { useForm } from "@/context/FormContext";
 import React from "react";
+import { calculateTotalPrice } from "./utillity";
 
 interface FormFinishInterface {
-  plan: string;
-  price: string;
   onChange?: () => void;
-  addons?: { label: string; price: string }[];
-  total: string;
-  isMonthly?: boolean;
 }
 
-const FormFinish: React.FC<FormFinishInterface> = ({
-  plan,
-  price,
-  addons = [],
-  onChange,
-  total,
-  isMonthly = true,
-}) => {
-  const unit = isMonthly ? "/mo" : "/yr";
+const FormFinish: React.FC<FormFinishInterface> = ({ onChange }) => {
+  const { state, dispatch } = useForm();
+  const unit = state.selectedPlan?.isYearly ? "/yr" : "/mo";
+  const interval = state.selectedPlan?.isYearly ? "year" : "month";
 
   return (
     <FormWrapper>
@@ -34,34 +26,46 @@ const FormFinish: React.FC<FormFinishInterface> = ({
         <div>
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-marine-blue font-bold text-lg">{plan}</p>
+              <p className="text-marine-blue font-bold text-lg capitalize">
+                {state.selectedPlan?.plan}
+              </p>
               <button
                 type="button"
-                onClick={onChange}
+                onClick={() => {
+                  onChange?.();
+                  dispatch({ type: "RESET_ADDONS" });
+                }}
                 className="text-lg text-cool-gray underline  hover:text-purplish-blue cursor-pointer"
               >
                 Change
               </button>
             </div>
-            <p className="font-bold text-marine-blue text-lg">{price}</p>
+            <p className="font-bold text-marine-blue text-lg">
+              ${state.selectedPlan?.price}/mo
+            </p>
           </div>
           <hr className="mt-3 border-light-gray" />
         </div>
 
         {/* Add-ons */}
         <div className="space-y-2">
-          {addons.map((item, idx) => (
-            <SummaryRow key={idx} label={item.label} price={item.price} muted />
+          {state.addons.map((item, idx) => (
+            <SummaryRow
+              key={idx}
+              label={item.services}
+              price={`$${item.price}/${
+                state.selectedPlan?.isYearly ? "yr" : "mo"
+              }`}
+              muted
+            />
           ))}
         </div>
       </div>
       {/* Total */}
       <div className="flex justify-between px-5">
-        <span className="text-cool-gray text-lg">
-          Total (per {isMonthly ? "month" : "year"})
-        </span>
+        <span className="text-cool-gray text-lg">Total (per {interval})</span>
         <span className="text-purplish-blue font-bold text-lg">
-          +{total}
+          +{calculateTotalPrice(state)}
           {unit}
         </span>
       </div>
