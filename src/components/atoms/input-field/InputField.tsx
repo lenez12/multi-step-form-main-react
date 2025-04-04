@@ -7,6 +7,7 @@ type Props = {
   hasError?: boolean;
   name: string;
   type?: React.HTMLInputTypeAttribute;
+  inputMode?: "text" | "email" | "numeric" | "tel";
 };
 
 const InputField: React.FC<Props> = ({
@@ -16,6 +17,7 @@ const InputField: React.FC<Props> = ({
   hasError,
   name,
   type,
+  inputMode = "text",
 }) => {
   return (
     <input
@@ -25,6 +27,7 @@ const InputField: React.FC<Props> = ({
       value={value}
       aria-autocomplete="none"
       onChange={onChange ? onChange : () => {}}
+      inputMode={inputMode}
       className={`
         w-full px-4 py-3 border rounded-md 
         outline-none transition-all tracking-wide

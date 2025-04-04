@@ -9,32 +9,66 @@ import SideBar from "@/components/organisms/side-bar/SideBar";
 import Thankyou from "@/components/organisms/thankyou/Thankyou";
 import { steps } from "@/constants/constant";
 import { useForm } from "@/context/FormContext";
-import React from "react";
+import React, { useEffect } from "react";
 
 const DefaultLayout = () => {
   const [step, setStep] = React.useState(1);
   const formInfoRef = React.useRef<FormInfoHandle>(null);
+  const [disabledNext, setDisabledNext] = React.useState(false);
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
   const [isThankYou, setIsThankYou] = React.useState(false);
   const { state, dispatch } = useForm();
 
+  const validateStep = (): boolean => {
+    switch (step) {
+      case 1: {
+        const form = formInfoRef.current?.validateAndGetData();
+        return form?.isValid ?? false;
+      }
+      case 2: {
+        return !!state.selectedPlan?.plan;
+      }
+      case 3:
+        return true; // add-on is optional
+      case 4:
+        return true; // review step
+      default:
+        return false;
+    }
+  };
+
   const handleSubmit = () => {
-    const form = formInfoRef.current?.validateAndGetData();
+    setIsSubmitted(true);
+    const isValid = validateStep();
+
+    if (!isValid) {
+      setDisabledNext(false);
+      return;
+    } else {
+      setIsSubmitted(false);
+    }
+
     if (step === 4) {
       dispatch({ type: "RESET_FORM" });
       setIsThankYou(true);
-      setStep((prev) => (prev < 4 ? prev + 1 : 4));
-    } else if (form?.isValid) {
-      setStep((prev) => (prev < 4 ? prev + 1 : 4));
-    } else if (state.selectedPlan?.plan) {
-      setStep((prev) => (prev < 4 ? prev + 1 : 4));
-    } else {
-      return;
     }
+
+    setStep((prev) => Math.min(prev + 1, 4));
+    setDisabledNext(false);
   };
 
   const onBack = () => {
     setStep((prev) => (prev > 0 ? prev - 1 : 0));
   };
+
+  useEffect(() => {
+    if (isSubmitted) {
+      const isValid = validateStep();
+      if (isValid) {
+        setIsSubmitted(false);
+      }
+    }
+  }, [step, isSubmitted, validateStep]);
 
   return (
     <div
@@ -51,7 +85,16 @@ const DefaultLayout = () => {
             lg:max-w-[90%] lg:mx-auto sm:p-8 `}
       >
         {step === 1 && <FormInfo ref={formInfoRef} />}
-        {step === 2 && <FormSelectPlan />}
+        {step === 2 && (
+          <>
+            <FormSelectPlan />
+            {isSubmitted && !state.selectedPlan?.plan && step === 2 && (
+              <p className="text-red-500 text-sm mt-2 self-end">
+                *Please select a plan
+              </p>
+            )}
+          </>
+        )}
         {step === 3 && <FormPickAddons />}
         {step === 4 && !isThankYou && (
           <FormFinish

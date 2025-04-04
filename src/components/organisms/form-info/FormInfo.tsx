@@ -16,9 +16,11 @@ const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
   const nameField = useFormField(state.personalInfo?.name, { required: true });
   const emailField = useFormField(state.personalInfo?.email, {
     required: true,
+    email: true,
   });
   const phoneField = useFormField(state.personalInfo?.phone, {
     required: true,
+    phone: true,
   });
 
   useImperativeHandle(ref, () => ({
@@ -46,7 +48,7 @@ const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
         <InputWithLabel
           name="name"
           label="Name"
-          placeholder="Masukan nama"
+          placeholder="John Doe"
           onChange={(e) => {
             nameField.onChange(e);
             dispatch({
@@ -62,7 +64,7 @@ const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
         <InputWithLabel
           name="email"
           label="Email Address"
-          placeholder="Masukan Email"
+          placeholder="jhon.doe@email.com"
           onChange={(e) => {
             emailField.onChange(e);
             dispatch({
@@ -78,7 +80,8 @@ const FormInfo = forwardRef<FormInfoHandle>((_props, ref) => {
         <InputWithLabel
           name="phone"
           label="Phone Number"
-          placeholder="Masukan Nomor Telepon"
+          inputMode="numeric"
+          placeholder="e.g. +1 234 567 890"
           onChange={(e) => {
             phoneField.onChange(e);
             dispatch({

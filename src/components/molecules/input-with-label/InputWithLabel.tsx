@@ -10,6 +10,7 @@ type Props = {
   name: string;
   type?: React.HTMLInputTypeAttribute;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  inputMode?: "text" | "email" | "numeric" | "tel";
 };
 
 const InputWithLabel: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const InputWithLabel: React.FC<Props> = ({
   error,
   name,
   type,
+  inputMode = "text",
   onChange,
 }) => {
   return (
@@ -32,6 +34,7 @@ const InputWithLabel: React.FC<Props> = ({
         onChange={onChange ? onChange : () => {}}
         hasError={!!error}
         key={name}
+        inputMode={inputMode}
       />
     </div>
   );

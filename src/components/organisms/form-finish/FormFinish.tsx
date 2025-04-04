@@ -14,7 +14,7 @@ const FormFinish: React.FC<FormFinishInterface> = ({
   onChange,
   selectAddon,
 }) => {
-  const { state, dispatch } = useForm();
+  const { state } = useForm();
   const unit = state.selectedPlan?.isYearly ? "/yr" : "/mo";
   const interval = state.selectedPlan?.isYearly ? "year" : "month";
   const duration = state.selectedPlan?.isYearly ? "Yearly" : "Montly";
@@ -36,10 +36,7 @@ const FormFinish: React.FC<FormFinishInterface> = ({
               </p>
               <button
                 type="button"
-                onClick={() => {
-                  onChange?.();
-                  dispatch({ type: "RESET_ADDONS" });
-                }}
+                onClick={onChange}
                 className="text-lg text-cool-gray underline  hover:text-purplish-blue cursor-pointer"
               >
                 Change

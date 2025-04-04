@@ -9,10 +9,6 @@ import { initPlans } from "@/constants/constant";
 
 export type FormPlanHandle = {
   validateAndGetData: () => {
-    title: string;
-    plan: string;
-    price: string;
-    isYearly: boolean;
     isValid: boolean;
   };
 };
