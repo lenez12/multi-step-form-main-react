@@ -9,17 +9,16 @@ import SideBar from "@/components/organisms/side-bar/SideBar";
 import Thankyou from "@/components/organisms/thankyou/Thankyou";
 import { steps } from "@/constants/constant";
 import { useForm } from "@/context/FormContext";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
 const DefaultLayout = () => {
   const [step, setStep] = React.useState(1);
   const formInfoRef = React.useRef<FormInfoHandle>(null);
-  const [disabledNext, setDisabledNext] = React.useState(false);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
   const [isThankYou, setIsThankYou] = React.useState(false);
   const { state, dispatch } = useForm();
 
-  const validateStep = (): boolean => {
+  const validateStep = useCallback((): boolean => {
     switch (step) {
       case 1: {
         const form = formInfoRef.current?.validateAndGetData();
@@ -35,14 +34,13 @@ const DefaultLayout = () => {
       default:
         return false;
     }
-  };
+  }, [step, state.selectedPlan?.plan]);
 
   const handleSubmit = () => {
-    setIsSubmitted(true);
     const isValid = validateStep();
 
     if (!isValid) {
-      setDisabledNext(false);
+      setIsSubmitted(true);
       return;
     } else {
       setIsSubmitted(false);
@@ -54,7 +52,6 @@ const DefaultLayout = () => {
     }
 
     setStep((prev) => Math.min(prev + 1, 4));
-    setDisabledNext(false);
   };
 
   const onBack = () => {

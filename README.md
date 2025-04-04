@@ -59,7 +59,7 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Github](https://tailwindcss.com/docs/installation/using-vite)
+- Solution URL: [Github](https://github.com/lenez12/multi-step-form-main-react.git)
 - Live Site URL: [Live Demo](https://your-live-site-url.com)
 
 ## My process

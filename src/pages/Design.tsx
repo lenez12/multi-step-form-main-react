@@ -66,17 +66,7 @@ const Design = () => {
         {step === 1 && <FormInfo />}
         {step === 2 && <FormSelectPlan />}
         {step === 3 && <FormPickAddons />}
-        {step === 4 && (
-          <FormFinish
-            plan="Arcade (Monthly)"
-            price="$90/mo"
-            addons={[
-              { label: "Online service", price: "+$10/mo" },
-              { label: "Larger storage", price: "+$20/mo" },
-            ]}
-            total="120"
-          />
-        )}
+        {step === 4 && <FormFinish />}
         {step === 5 && <Thankyou />}
 
         <FormNavigation
