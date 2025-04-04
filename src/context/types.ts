@@ -13,7 +13,7 @@ export type FormPlan = {
 export type FormAddons = {
   id: string;
   services: string;
-  price: number | string;
+  price: number;
 };
 
 export type FormState = {

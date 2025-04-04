@@ -5,7 +5,7 @@ export const calculateTotalPrice = (state: FormState): number => {
   const addonsTotal = state.addons.reduce((sum, addon) => {
     const parsedPrice =
       typeof addon.price === "string"
-        ? parseFloat(addon.price.replace(/[^0-9.]/g, ""))
+        ? parseFloat(addon.price)
         : addon.price || 0;
 
     return sum + parsedPrice;

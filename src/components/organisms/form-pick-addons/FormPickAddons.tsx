@@ -1,34 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import FormWrapper from "@/components/atoms/wrapper/FormWrapper";
 import AddOnCard, {
   AddOnCardProps,
 } from "@/components/molecules/card/AddOnCard";
 import SectionHeader from "@/components/molecules/section-header/SectionHeader";
+import { initialAddons } from "@/constants/constant";
 import { useForm } from "@/context/FormContext";
 import React, { useEffect, useState } from "react";
-
-const initialAddons: AddOnCardProps[] = [
-  {
-    id: "1",
-    label: "Online service",
-    description: "Access to multiplayer games",
-    price: 1,
-    checked: false,
-  },
-  {
-    id: "2",
-    label: "Larger storage",
-    description: "Extra 1TB of cloud save",
-    price: 2,
-    checked: false,
-  },
-  {
-    id: "3",
-    label: "Customizable profile",
-    description: "Custom theme on your profile",
-    price: 2,
-    checked: false,
-  },
-];
 
 const FormPickAddons: React.FC = () => {
   const { state, dispatch } = useForm();
@@ -45,7 +23,7 @@ const FormPickAddons: React.FC = () => {
         payload: {
           id,
           services: label,
-          price,
+          price: Number(price),
         },
       });
     }
@@ -61,9 +39,16 @@ const FormPickAddons: React.FC = () => {
         : Number(addon.price),
       checked: selectedIds.has(addon.id),
     }));
-
+    const newAddons = synced
+      .filter((addon) => addon.checked)
+      .map((addon) => ({
+        id: addon.id,
+        services: addon.label,
+        price: addon.price,
+      }));
+    dispatch({ type: "SET_ADDONS", payload: newAddons });
     setAddons(synced);
-  }, [state.addons, state.selectedPlan?.isYearly]);
+  }, [state.selectedPlan?.isYearly]);
 
   return (
     <FormWrapper>

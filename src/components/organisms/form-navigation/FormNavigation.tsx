@@ -35,7 +35,7 @@ const FormNavigation: React.FC<Props> = ({
             "lg:flex  sm:hidden flex-row justify-between bg-white lg:min-w-full",
             {
               "justify-end": step === 1,
-              "sr-only": !visible,
+              "sm:hidden lg:hidden": !visible,
               "shadow-2xl": isMobile,
             },
             className
@@ -62,7 +62,7 @@ const FormNavigation: React.FC<Props> = ({
     <div
       className={clsx(
         "lg:hidden flex flex-row gap-4 justify-between px-6 py-4 bg-white",
-        { "justify-end": step === 1, "sr-only": !visible }
+        { "justify-end": step === 1, "sm:hidden lg:hidden": !visible }
       )}
     >
       <div className={step === 1 ? "sr-only" : ""}>

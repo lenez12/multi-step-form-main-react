@@ -7,12 +7,17 @@ import { calculateTotalPrice } from "./utillity";
 
 interface FormFinishInterface {
   onChange?: () => void;
+  selectAddon?: () => void;
 }
 
-const FormFinish: React.FC<FormFinishInterface> = ({ onChange }) => {
+const FormFinish: React.FC<FormFinishInterface> = ({
+  onChange,
+  selectAddon,
+}) => {
   const { state, dispatch } = useForm();
   const unit = state.selectedPlan?.isYearly ? "/yr" : "/mo";
   const interval = state.selectedPlan?.isYearly ? "year" : "month";
+  const duration = state.selectedPlan?.isYearly ? "Yearly" : "Montly";
 
   return (
     <FormWrapper>
@@ -27,7 +32,7 @@ const FormFinish: React.FC<FormFinishInterface> = ({ onChange }) => {
           <div className="flex justify-between items-center">
             <div>
               <p className="text-marine-blue font-bold text-lg capitalize">
-                {state.selectedPlan?.plan}
+                {state.selectedPlan?.plan} ({duration})
               </p>
               <button
                 type="button"
@@ -41,7 +46,8 @@ const FormFinish: React.FC<FormFinishInterface> = ({ onChange }) => {
               </button>
             </div>
             <p className="font-bold text-marine-blue text-lg">
-              ${state.selectedPlan?.price}/mo
+              ${state.selectedPlan?.price}
+              {unit}
             </p>
           </div>
           <hr className="mt-3 border-light-gray" />
@@ -59,6 +65,18 @@ const FormFinish: React.FC<FormFinishInterface> = ({ onChange }) => {
               muted
             />
           ))}
+          {state.addons.length === 0 && (
+            <span className="text-cool-gray text-body">
+              No add-ons selected. Click{" "}
+              <a
+                className="underline cursor-pointer"
+                onClick={() => selectAddon?.()}
+              >
+                here
+              </a>{" "}
+              to select some.
+            </span>
+          )}
         </div>
       </div>
       {/* Total */}

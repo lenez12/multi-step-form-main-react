@@ -5,57 +5,34 @@ import FormInfo, {
 import FormNavigation from "@/components/organisms/form-navigation/FormNavigation";
 import FormPickAddons from "@/components/organisms/form-pick-addons/FormPickAddons";
 import FormSelectPlan from "@/components/organisms/form-select-plan/FormSelectPlan";
-import SideBar, { StepType } from "@/components/organisms/side-bar/SideBar";
+import SideBar from "@/components/organisms/side-bar/SideBar";
 import Thankyou from "@/components/organisms/thankyou/Thankyou";
+import { steps } from "@/constants/constant";
 import { useForm } from "@/context/FormContext";
 import React from "react";
-
-const steps: StepType[] = [
-  {
-    active: true,
-    label: "Your Info",
-    number: 1,
-  },
-  {
-    active: false,
-    label: "Select plan",
-    number: 2,
-  },
-  {
-    active: false,
-    label: "Add-ons",
-    number: 3,
-  },
-  {
-    active: false,
-    label: "Summary",
-    number: 4,
-  },
-];
 
 const DefaultLayout = () => {
   const [step, setStep] = React.useState(1);
   const formInfoRef = React.useRef<FormInfoHandle>(null);
+  const [isThankYou, setIsThankYou] = React.useState(false);
   const { state, dispatch } = useForm();
 
   const handleSubmit = () => {
     const form = formInfoRef.current?.validateAndGetData();
     if (step === 4) {
       dispatch({ type: "RESET_FORM" });
-      setStep((prev) => (prev < 5 ? prev + 1 : 4));
+      setIsThankYou(true);
+      setStep((prev) => (prev < 4 ? prev + 1 : 4));
     } else if (form?.isValid) {
-      setStep((prev) => (prev < 5 ? prev + 1 : 4));
+      setStep((prev) => (prev < 4 ? prev + 1 : 4));
     } else if (state.selectedPlan?.plan) {
-      setStep((prev) => (prev < 5 ? prev + 1 : 4));
+      setStep((prev) => (prev < 4 ? prev + 1 : 4));
     } else {
       return;
     }
   };
 
   const onBack = () => {
-    if (step === 3) {
-      dispatch({ type: "RESET_ADDONS" });
-    }
     setStep((prev) => (prev > 0 ? prev - 1 : 0));
   };
 
@@ -76,15 +53,20 @@ const DefaultLayout = () => {
         {step === 1 && <FormInfo ref={formInfoRef} />}
         {step === 2 && <FormSelectPlan />}
         {step === 3 && <FormPickAddons />}
-        {step === 4 && <FormFinish onChange={() => setStep(2)} />}
-        {step === 5 && <Thankyou />}
+        {step === 4 && !isThankYou && (
+          <FormFinish
+            onChange={() => setStep(2)}
+            selectAddon={() => setStep(3)}
+          />
+        )}
+        {step === 4 && isThankYou && <Thankyou />}
 
         <FormNavigation
           step={step}
           onBack={onBack}
           onNext={handleSubmit}
           isMobile={false}
-          visible={step < 5}
+          visible={!isThankYou}
           nexbuttonText={step === 4 ? "Confirm" : "Next Step"}
           nextButtonVariant={step === 4 ? "accent" : "primary"}
           className="justify-between"
@@ -95,7 +77,7 @@ const DefaultLayout = () => {
         onBack={onBack}
         onNext={handleSubmit}
         isMobile={true}
-        visible={step < 5}
+        visible={!isThankYou}
         nexbuttonText={step === 4 ? "Confirm" : "Next Step"}
         nextButtonVariant={step === 4 ? "accent" : "primary"}
       />

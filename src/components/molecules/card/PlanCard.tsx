@@ -1,17 +1,18 @@
 import clsx from "clsx";
 import React from "react";
-interface Props {
+export interface PlanCardProps {
+  id: number;
   title: string;
   price: string;
   icon: string;
   plan: string;
-  name: string;
+  name?: string;
   checked?: boolean;
   onChange?: (value: string) => void;
   freeMonths?: number;
   isYearly?: boolean;
 }
-const PlanCard: React.FC<Props> = ({
+const PlanCard: React.FC<PlanCardProps> = ({
   title,
   price,
   icon,

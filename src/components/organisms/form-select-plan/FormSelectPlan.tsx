@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Advance, Arcade, Pro } from "@/assets/images";
 import FormWrapper from "@/components/atoms/wrapper/FormWrapper";
 import BillingToggle from "@/components/molecules/billing-toggle/BillingToggle";
 import PlanCard from "@/components/molecules/card/PlanCard";
 import SectionHeader from "@/components/molecules/section-header/SectionHeader";
 import { useForm } from "@/context/FormContext";
+import { initPlans } from "@/constants/constant";
 
 export type FormPlanHandle = {
   validateAndGetData: () => {
@@ -16,30 +16,6 @@ export type FormPlanHandle = {
     isValid: boolean;
   };
 };
-
-const initPlans = [
-  {
-    id: 1,
-    title: "Arcade",
-    plan: "arcade",
-    price: 9,
-    icon: Arcade,
-  },
-  {
-    id: 2,
-    title: "Advance",
-    plan: "advance",
-    price: 12,
-    icon: Advance,
-  },
-  {
-    id: 3,
-    title: "Pro",
-    plan: "pro",
-    price: 15,
-    icon: Pro,
-  },
-];
 
 const FormSelectPlan: React.FC = () => {
   const { state, dispatch } = useForm();
@@ -52,14 +28,36 @@ const FormSelectPlan: React.FC = () => {
         ...plan,
         price: plan.price * 10,
       }));
+      const statePlan = newPlan.find(
+        (plan) => plan.plan === state.selectedPlan?.plan
+      );
       setPlans(newPlan);
+      if (statePlan) {
+        dispatch({
+          type: "UPDATE_PLAN",
+          payload: {
+            isYearly: true,
+            plan: statePlan.plan,
+            price: statePlan.price,
+          },
+        });
+      }
     } else {
+      const statePlan = initPlans.find(
+        (plan) => plan.plan === state.selectedPlan?.plan
+      );
+      if (statePlan) {
+        dispatch({
+          type: "UPDATE_PLAN",
+          payload: {
+            isYearly: false,
+            plan: statePlan.plan,
+            price: statePlan.price,
+          },
+        });
+      }
       setPlans(initPlans);
     }
-    dispatch({
-      type: "UPDATE_PLAN",
-      payload: { ...state.selectedPlan, isYearly: isOn },
-    });
   }, [isOn]);
   return (
     <FormWrapper>
